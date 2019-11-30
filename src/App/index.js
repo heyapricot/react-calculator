@@ -8,6 +8,21 @@ class App extends Component {
     super(props);
   }
 
+  dialPad(){
+    const numbers = Array.from(Array(9).keys()).map((value, index) => index + 1);
+    return <div className='col d-flex flex-column col-9'>
+      <div className='btn-group'>
+        {numbers.slice(6).map(number => <DialButton caption={number}/>)}
+      </div>
+      <div className='btn-group'>
+        {numbers.slice(3,6).map(number => <DialButton caption={number}/>)}
+      </div>
+      <div className='btn-group'>
+        {numbers.slice(0,3).map(number => <DialButton caption={number}/>)}
+      </div>
+    </div>
+  }
+
   render() {
     return (
       <div className="App-header">
@@ -22,18 +37,7 @@ class App extends Component {
               <div className="row">
               </div>
               <div className="row">
-                <div className="col d-flex flex-column col-9">
-                  <div className="btn-group">
-                    <DialButton caption='7'/>
-                    <DialButton caption='7'/>
-                    <DialButton caption='7'/>
-                  </div>
-                  <div className="btn-group">
-                    <DialButton caption='7'/>
-                    <DialButton caption='7'/>
-                    <DialButton caption='7'/>
-                  </div>
-                </div>
+                {this.dialPad()}
                 <div className="col">
 
                 </div>
