@@ -1,7 +1,11 @@
 import React from 'react';
 
-const DialButton = ({ caption }) =>
-    <button type="button" className="btn btn-info btn-lg">
+const DialButton = ({ caption, onClick }) =>
+    <button
+      type="button"
+      className="btn btn-info btn-lg"
+      onClick={onClick}
+    >
       {caption}
     </button>;
 
