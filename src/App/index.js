@@ -9,16 +9,35 @@ class App extends Component {
     super(props);
 
     this.state = {
-      displayValue: 0,
+      decimal: 0,
+      decimalEnabled: false,
+      decimalPositions: 1,
+      integer: 0,
     };
+
   }
 
   dialNumber(number) {
-    let { displayValue } = this.state;
+    let { decimal, decimalEnabled, decimalPositions, integer } = this.state;
+    const calculateDecimal = (previous, increase, positions) => (previous + (increase / Math.pow(10, positions)));
+    const calculateInteger = (previous, increase) => (previous * 10) + increase;
+    const newState = () => {
+      if(decimalEnabled) {
+        return {
+          decimal: calculateDecimal(decimal, number, decimalPositions),
+          decimalPositions: decimalPositions + 1
+        }
+      }
+      else {
+        return {
+          integer: calculateInteger(integer, number)
+        }
+      }
+    };
 
-    this.setState({
-      displayValue: (displayValue * 10) + number
-    })
+    this.setState(
+      newState
+    )
   }
 
   dialPad(){
@@ -45,18 +64,36 @@ class App extends Component {
             onClick={() => this.dialNumber(number)}
           />)}
       </div>
+      <div className='btn-group'>
+        <DialButton
+          caption={0}
+          onClick={() => this.dialNumber(0)}
+        />
+        <DialButton
+          caption={'.'}
+          onClick={() => this.switchToDecimal()}
+        />
+      </div>
     </div>
   }
 
+  switchToDecimal(){
+    this.setState(
+      {
+        decimalEnabled: true,
+      }
+    );
+  }
+
   render() {
-    const { displayValue } = this.state;
+    const { decimal, decimalEnabled, decimalPositions, integer } = this.state;
 
     return (
       <div className="App-header">
         <div className="container">
           <div className="row">
             <div className="col">
-              <Display caption={displayValue}/>
+              <Display caption={ (decimalEnabled ? (integer + decimal).toFixed(decimalPositions - 1) : integer )  }/>
             </div>
           </div>
           <div className="row">
