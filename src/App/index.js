@@ -42,7 +42,7 @@ class App extends Component {
 
   dialPad(){
     const numbers = Array.from(Array(9).keys()).map((value, index) => index + 1);
-    return <div className='col d-flex flex-column col-9'>
+    return <div className='d-flex flex-column'>
       <div className='btn-group'>
         {numbers.slice(6).map(number =>
           <DialButton
@@ -77,6 +77,27 @@ class App extends Component {
     </div>
   }
 
+  operationPad(){
+    return <div className="d-flex flex-column">
+      <DialButton
+        caption={'/'}
+        className="btn btn-lg btn-warning"
+      />
+      <DialButton
+        caption={'x'}
+        className="btn btn-lg btn-warning"
+      />
+      <DialButton
+        caption={'-'}
+        className="btn btn-lg btn-warning"
+      />
+      <DialButton
+        caption={'+'}
+        className="btn btn-lg btn-warning"
+      />
+    </div>
+  }
+
   switchToDecimal(){
     this.setState(
       {
@@ -97,28 +118,18 @@ class App extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col">
+            <div className="col-9 pr-0">
               <div className="row">
               </div>
               <div className="row">
-                {this.dialPad()}
                 <div className="col">
-
+                  {this.dialPad()}
                 </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
+            <div className="col pl-0">
+              {this.operationPad()}
+            </div>
           </div>
         </div>
       </div>
