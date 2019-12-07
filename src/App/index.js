@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { DialButton } from '../Buttons'
+import { DialPad } from '../DialPad'
 import { Display } from '../Display'
 
 class App extends Component {
@@ -15,6 +16,8 @@ class App extends Component {
       integer: 0,
     };
 
+    this.dialNumber = this.dialNumber.bind(this);
+    this.switchToDecimal = this.switchToDecimal.bind(this);
   }
 
   dialNumber(number) {
@@ -38,43 +41,6 @@ class App extends Component {
     this.setState(
       newState
     )
-  }
-
-  dialPad(){
-    const numbers = Array.from(Array(9).keys()).map((value, index) => index + 1);
-    return <div className='d-flex flex-column'>
-      <div className='btn-group'>
-        {numbers.slice(6).map(number =>
-          <DialButton
-            caption={number}
-            onClick={() => this.dialNumber(number)}
-          />)}
-      </div>
-      <div className='btn-group'>
-        {numbers.slice(3,6).map(number =>
-          <DialButton
-            caption={number}
-            onClick={() => this.dialNumber(number)}
-          />)}
-      </div>
-      <div className='btn-group'>
-        {numbers.slice(0,3).map(number =>
-          <DialButton
-            caption={number}
-            onClick={() => this.dialNumber(number)}
-          />)}
-      </div>
-      <div className='btn-group'>
-        <DialButton
-          caption={0}
-          onClick={() => this.dialNumber(0)}
-        />
-        <DialButton
-          caption={'.'}
-          onClick={() => this.switchToDecimal()}
-        />
-      </div>
-    </div>
   }
 
   operationPad(){
@@ -120,10 +86,13 @@ class App extends Component {
           <div className="row">
             <div className="col-9 pr-0">
               <div className="row">
+                <div className="col">
+                  
+                </div>
               </div>
               <div className="row">
                 <div className="col">
-                  {this.dialPad()}
+                  <DialPad numberFn={this.dialNumber} dotFn={this.switchToDecimal}/>
                 </div>
               </div>
             </div>
