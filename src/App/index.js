@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { DialButton } from '../Buttons'
+import { DialPad } from '../DialPad'
 import { Display } from '../Display'
 
 class App extends Component {
@@ -15,6 +15,8 @@ class App extends Component {
       integer: 0,
     };
 
+    this.dialNumber = this.dialNumber.bind(this);
+    this.switchToDecimal = this.switchToDecimal.bind(this);
   }
 
   dialNumber(number) {
@@ -40,43 +42,6 @@ class App extends Component {
     )
   }
 
-  dialPad(){
-    const numbers = Array.from(Array(9).keys()).map((value, index) => index + 1);
-    return <div className='col d-flex flex-column col-9'>
-      <div className='btn-group'>
-        {numbers.slice(6).map(number =>
-          <DialButton
-            caption={number}
-            onClick={() => this.dialNumber(number)}
-          />)}
-      </div>
-      <div className='btn-group'>
-        {numbers.slice(3,6).map(number =>
-          <DialButton
-            caption={number}
-            onClick={() => this.dialNumber(number)}
-          />)}
-      </div>
-      <div className='btn-group'>
-        {numbers.slice(0,3).map(number =>
-          <DialButton
-            caption={number}
-            onClick={() => this.dialNumber(number)}
-          />)}
-      </div>
-      <div className='btn-group'>
-        <DialButton
-          caption={0}
-          onClick={() => this.dialNumber(0)}
-        />
-        <DialButton
-          caption={'.'}
-          onClick={() => this.switchToDecimal()}
-        />
-      </div>
-    </div>
-  }
-
   switchToDecimal(){
     this.setState(
       {
@@ -99,26 +64,16 @@ class App extends Component {
           <div className="row">
             <div className="col">
               <div className="row">
+                <div className="col">
+                  <DialPad numberFn={this.dialNumber} dotFn={this.switchToDecimal}/>
+                </div>
               </div>
               <div className="row">
-                {this.dialPad()}
                 <div className="col">
 
                 </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
-          </div>
-          <div className="row">
-            <div className="col"></div>
           </div>
         </div>
       </div>
