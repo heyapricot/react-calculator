@@ -5,7 +5,7 @@ import { DialButton } from '../Buttons'
 import { DialPad } from '../DialPad'
 import { Display } from '../Display'
 
-const OperationPad = () =>
+const OperationPad = ({ sumFn }) =>
   <div className="d-flex flex-column">
     <DialButton
       caption={'/'}
@@ -21,6 +21,7 @@ const OperationPad = () =>
     />
     <DialButton
       caption={'+'}
+      onClick={() => sumFn()}
       className="btn btn-lg btn-warning"
     />
   </div>;
@@ -30,10 +31,13 @@ class App extends Component {
     super(props);
 
     this.state = {
+      accumulator: 0,
       display: '0',
+      overwriteDisplay: true,
       value: 0,
     };
 
+    this.sum = this.sum.bind(this);
   }
 
   dial(char, display) {
@@ -45,13 +49,24 @@ class App extends Component {
     this.setState(
       {
         display: newDisplay,
-        value: parseFloat(newDisplay),
+        overwriteDisplay: false,
+        value: parseFloat(newDisplay) || 0,
+      }
+    );
+  }
+
+  sum(first, second){
+    this.setState(
+      {
+        accumulator: (first + second),
+        overwriteDisplay: true,
+        display: (first + second)
       }
     );
   }
 
   render() {
-    const { display } = this.state;
+    const { accumulator, display, overwriteDisplay, value } = this.state;
 
     return (
       <div className="App-header">
@@ -70,12 +85,12 @@ class App extends Component {
               </div>
               <div className="row">
                 <div className="col">
-                  <DialPad onClick={char => this.onButtonClick(char, display)}/>
+                  <DialPad onClick={char => this.onButtonClick(char, overwriteDisplay ? '' : display)}/>
                 </div>
               </div>
             </div>
             <div className="col pl-0">
-              <OperationPad/>
+              <OperationPad sumFn={() => this.sum(accumulator, value)}/>
             </div>
           </div>
         </div>
