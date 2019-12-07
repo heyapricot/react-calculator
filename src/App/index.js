@@ -30,56 +30,35 @@ class App extends Component {
     super(props);
 
     this.state = {
-      decimal: 0,
-      decimalEnabled: false,
-      decimalPositions: 1,
-      integer: 0,
+      display: '0',
+      value: 0,
     };
 
-    this.dialNumber = this.dialNumber.bind(this);
-    this.switchToDecimal = this.switchToDecimal.bind(this);
   }
 
-  dialNumber(number) {
-    let { decimal, decimalEnabled, decimalPositions, integer } = this.state;
-    const calculateDecimal = (previous, increase, positions) => (previous + (increase / Math.pow(10, positions)));
-    const calculateInteger = (previous, increase) => (previous * 10) + increase;
-    const newState = () => {
-      if(decimalEnabled) {
-        return {
-          decimal: calculateDecimal(decimal, number, decimalPositions),
-          decimalPositions: decimalPositions + 1
-        }
-      }
-      else {
-        return {
-          integer: calculateInteger(integer, number)
-        }
-      }
-    };
-
-    this.setState(
-      newState
-    )
+  dial(char, display) {
+    return `${(display === '0' ? '' : display)}${(char === '.' && display.includes('.')) ? '' : char }`
   }
 
-  switchToDecimal(){
+  onButtonClick(char, display){
+    const newDisplay = this.dial(char, display);
     this.setState(
       {
-        decimalEnabled: true,
+        display: newDisplay,
+        value: parseFloat(newDisplay),
       }
     );
   }
 
   render() {
-    const { decimal, decimalEnabled, decimalPositions, integer } = this.state;
+    const { display } = this.state;
 
     return (
       <div className="App-header">
         <div className="container">
           <div className="row">
             <div className="col">
-              <Display caption={ (decimalEnabled ? (integer + decimal).toFixed(decimalPositions - 1) : integer )  }/>
+              <Display caption={ display } />
             </div>
           </div>
           <div className="row">
@@ -91,7 +70,7 @@ class App extends Component {
               </div>
               <div className="row">
                 <div className="col">
-                  <DialPad numberFn={this.dialNumber} dotFn={this.switchToDecimal}/>
+                  <DialPad onClick={char => this.onButtonClick(char, display)}/>
                 </div>
               </div>
             </div>
