@@ -5,6 +5,26 @@ import { DialButton } from '../Buttons'
 import { DialPad } from '../DialPad'
 import { Display } from '../Display'
 
+const OperationPad = () =>
+  <div className="d-flex flex-column">
+    <DialButton
+      caption={'/'}
+      className="btn btn-lg btn-warning"
+    />
+    <DialButton
+      caption={'x'}
+      className="btn btn-lg btn-warning"
+    />
+    <DialButton
+      caption={'-'}
+      className="btn btn-lg btn-warning"
+    />
+    <DialButton
+      caption={'+'}
+      className="btn btn-lg btn-warning"
+    />
+  </div>;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -43,27 +63,6 @@ class App extends Component {
     )
   }
 
-  operationPad(){
-    return <div className="d-flex flex-column">
-      <DialButton
-        caption={'/'}
-        className="btn btn-lg btn-warning"
-      />
-      <DialButton
-        caption={'x'}
-        className="btn btn-lg btn-warning"
-      />
-      <DialButton
-        caption={'-'}
-        className="btn btn-lg btn-warning"
-      />
-      <DialButton
-        caption={'+'}
-        className="btn btn-lg btn-warning"
-      />
-    </div>
-  }
-
   switchToDecimal(){
     this.setState(
       {
@@ -97,7 +96,7 @@ class App extends Component {
               </div>
             </div>
             <div className="col pl-0">
-              {this.operationPad()}
+              <OperationPad/>
             </div>
           </div>
         </div>
